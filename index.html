@@ -99,6 +99,8 @@
       box-shadow: 0 6px 18px rgba(0, 255, 200, 0.3);
       transition: transform 0.3s ease;
       margin-bottom: 10px;
+      text-decoration: none;
+      display: inline-block;
     }
 
     .subscribe-btn:hover {
@@ -145,9 +147,12 @@
     </div>
   </div>
 
-  <!-- Subscription Button -->
+  <!-- Subscription Button using anchor tag -->
   <div class="subscription">
-    <button class="subscribe-btn" onclick="payWithUPI()">💎 Unlock Ultra Advance Service – ₹199</button>
+    <a class="subscribe-btn"
+       href="upi://pay?pa=7568845637@axl&pn=ADBOSS%20Subscription&am=199&cu=INR&tn=Monthly%20Access">
+       💎 Unlock Ultra Advance Service – ₹199
+    </a>
   </div>
 
   <!-- Screenshot Upload Section -->
@@ -164,11 +169,6 @@
 
     function showYourClone() {
       window.open('https://pimeyes.com/en', '_blank');
-    }
-
-    function payWithUPI() {
-      const upiLink = "upi://pay?pa=7568845637@axl&pn=ADBOSS%20Subscription&am=199&cu=INR&tn=Monthly%20Access";
-      window.location.href = upiLink;
     }
 
     const input = document.getElementById("screenshotInput");
