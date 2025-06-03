@@ -5,11 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>ADBOSS Portal</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       height: 100vh;
@@ -72,9 +68,7 @@
       box-shadow: 0 10px 30px rgba(0, 255, 200, 0.4);
     }
 
-    .option-card:hover::before {
-      opacity: 1;
-    }
+    .option-card:hover::before { opacity: 1; }
 
     .option-card span {
       position: relative;
@@ -98,7 +92,7 @@
       cursor: pointer;
       box-shadow: 0 6px 18px rgba(0, 255, 200, 0.3);
       transition: transform 0.3s ease;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
       text-decoration: none;
       display: inline-block;
     }
@@ -107,14 +101,16 @@
       transform: scale(1.05);
     }
 
-    input[type="file"] {
-      margin-top: 10px;
-      padding: 10px;
-      background: #111;
-      border: 1px solid #333;
-      border-radius: 8px;
-      color: white;
-      cursor: pointer;
+    .qr-section {
+      margin-top: 20px;
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    .qr-section img {
+      width: 220px;
+      height: 220px;
+      border-radius: 20px;
+      box-shadow: 0 6px 20px rgba(0,255,200,0.3);
     }
 
     @keyframes fadeIn {
@@ -147,7 +143,7 @@
     </div>
   </div>
 
-  <!-- Subscription Button using anchor tag -->
+  <!-- Subscription Button -->
   <div class="subscription">
     <a class="subscribe-btn"
        href="upi://pay?pa=7568845637@axl&pn=ADBOSS%20Subscription&am=199&cu=INR&tn=Monthly%20Access">
@@ -155,11 +151,19 @@
     </a>
   </div>
 
-  <!-- Screenshot Upload Section -->
+  <!-- QR Code -->
+  <div class="qr-section">
+    <p>📱 Or Scan this QR to Pay ₹199</p>
+    <img src="https://api.qrserver.com/v1/create-qr-code/?data=upi://pay?pa=7568845637@axl&pn=ADBOSS%20Subscription&am=199&cu=INR&tn=Monthly%20Access&size=220x220" alt="UPI QR Code" />
+  </div>
+
+  <!-- Google Form Upload -->
   <div class="subscription" style="margin-top: 30px;">
-    <h3>📸 Upload Payment Screenshot</h3>
-    <input type="file" id="screenshotInput" accept="image/*" />
-    <div id="screenshotPreview" style="margin-top: 15px;"></div>
+    <h3>📤 Upload Payment Screenshot</h3>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeaFdD-383JOoNhb7n8HAs9Ua0QbqGWiQ6dsW5GahxJrNP0TQ/viewform?usp=sharing&ouid=117141887558782745334"
+       target="_blank" class="subscribe-btn">
+      Upload via Google Form
+    </a>
   </div>
 
   <script>
@@ -170,26 +174,7 @@
     function showYourClone() {
       window.open('https://pimeyes.com/en', '_blank');
     }
-
-    const input = document.getElementById("screenshotInput");
-    const preview = document.getElementById("screenshotPreview");
-
-    input.addEventListener("change", function () {
-      const file = input.files[0];
-      if (file && file.type.startsWith("image/")) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-          preview.innerHTML = `
-            <img src="${e.target.result}" alt="Payment Screenshot" style="max-width: 300px; border-radius: 12px; margin-top: 10px; box-shadow: 0 0 10px rgba(0,255,200,0.3);" />
-            <p style="color: #0f0; margin-top: 10px;">✅ Screenshot uploaded. Admin will verify your payment soon.</p>
-          `;
-        };
-        reader.readAsDataURL(file);
-      } else {
-        preview.innerHTML = `<p style="color: red;">❌ Please upload a valid image file.</p>`;
-      }
-    });
   </script>
 
 </body>
-</html>
+    </html>
