@@ -19,8 +19,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      overflow: hidden;
+      justify-content: flex-start;
+      padding-top: 60px;
       text-align: center;
     }
 
@@ -39,6 +39,7 @@
       flex-wrap: wrap;
       justify-content: center;
       animation: slideUp 2s ease-out;
+      margin-bottom: 40px;
     }
 
     .option-card {
@@ -80,6 +81,40 @@
       z-index: 1;
     }
 
+    .subscription {
+      margin-top: 20px;
+      text-align: center;
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    .subscribe-btn {
+      background: linear-gradient(90deg, #00ffc8, #00aaff);
+      color: #000;
+      padding: 15px 30px;
+      border: none;
+      border-radius: 30px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(0, 255, 200, 0.3);
+      transition: transform 0.3s ease;
+      margin-bottom: 10px;
+    }
+
+    .subscribe-btn:hover {
+      transform: scale(1.05);
+    }
+
+    input[type="file"] {
+      margin-top: 10px;
+      padding: 10px;
+      background: #111;
+      border: 1px solid #333;
+      border-radius: 8px;
+      color: white;
+      cursor: pointer;
+    }
+
     @keyframes fadeIn {
       0% { opacity: 0; transform: scale(0.8); }
       100% { opacity: 1; transform: scale(1); }
@@ -110,6 +145,18 @@
     </div>
   </div>
 
+  <!-- Subscription Button -->
+  <div class="subscription">
+    <button class="subscribe-btn" onclick="payWithUPI()">💎 Unlock Ultra Advance Service – ₹199</button>
+  </div>
+
+  <!-- Screenshot Upload Section -->
+  <div class="subscription" style="margin-top: 30px;">
+    <h3>📸 Upload Payment Screenshot</h3>
+    <input type="file" id="screenshotInput" accept="image/*" />
+    <div id="screenshotPreview" style="margin-top: 15px;"></div>
+  </div>
+
   <script>
     function playRaceGame() {
       window.open('https://www.miniplay.com/game/fun-race-3d/play', '_blank');
@@ -118,6 +165,30 @@
     function showYourClone() {
       window.open('https://pimeyes.com/en', '_blank');
     }
+
+    function payWithUPI() {
+      const upiLink = "upi://pay?pa=7568845637@axl&pn=ADBOSS%20Subscription&am=199&cu=INR&tn=Monthly%20Access";
+      window.location.href = upiLink;
+    }
+
+    const input = document.getElementById("screenshotInput");
+    const preview = document.getElementById("screenshotPreview");
+
+    input.addEventListener("change", function () {
+      const file = input.files[0];
+      if (file && file.type.startsWith("image/")) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          preview.innerHTML = `
+            <img src="${e.target.result}" alt="Payment Screenshot" style="max-width: 300px; border-radius: 12px; margin-top: 10px; box-shadow: 0 0 10px rgba(0,255,200,0.3);" />
+            <p style="color: #0f0; margin-top: 10px;">✅ Screenshot uploaded. Admin will verify your payment soon.</p>
+          `;
+        };
+        reader.readAsDataURL(file);
+      } else {
+        preview.innerHTML = `<p style="color: red;">❌ Please upload a valid image file.</p>`;
+      }
+    });
   </script>
 
 </body>
