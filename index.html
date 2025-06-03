@@ -3,68 +3,121 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Features Coming Soon</title>
+  <title>ADBOSS Portal</title>
   <style>
-    body {
+    * {
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to right, #00c6ff, #0072ff);
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      text-align: center;
+      box-sizing: border-box;
     }
 
-    .container {
-      animation: fadeIn 2s ease-out;
+    body {
+      height: 100vh;
+      background: linear-gradient(120deg, #1e1e2f, #111);
+      font-family: 'Segoe UI', sans-serif;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      text-align: center;
     }
 
     h1 {
       font-size: 48px;
-      margin-bottom: 20px;
-      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+      margin-bottom: 30px;
+      animation: fadeIn 2s ease-in-out;
+      background: linear-gradient(90deg, #00ffc8, #00aaff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
-    .coming {
-      font-size: 24px;
-      color: #e0f7fa;
-      animation: pulse 2s infinite;
+    .options {
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+      justify-content: center;
+      animation: slideUp 2s ease-out;
+    }
+
+    .option-card {
+      background: #222;
+      padding: 30px 40px;
+      border-radius: 20px;
+      width: 260px;
+      font-size: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(0, 255, 200, 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+    }
+
+    .option-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: linear-gradient(135deg, #00ffcc88, #00aaff88);
+      border-radius: 20px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 0;
+    }
+
+    .option-card:hover {
+      transform: scale(1.08);
+      box-shadow: 0 10px 30px rgba(0, 255, 200, 0.4);
+    }
+
+    .option-card:hover::before {
+      opacity: 1;
+    }
+
+    .option-card span {
+      position: relative;
+      z-index: 1;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
+      0% { opacity: 0; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1); }
     }
 
-    @keyframes pulse {
-      0% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.05); opacity: 0.8; }
-      100% { transform: scale(1); opacity: 1; }
+    @keyframes slideUp {
+      0% { transform: translateY(60px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
     }
 
-    footer {
-      position: absolute;
-      bottom: 20px;
-      font-size: 14px;
-      color: #bbdefb;
+    @media (max-width: 600px) {
+      .option-card {
+        width: 80%;
+      }
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <h1>✨ Features Coming Soon ✨</h1>
-    <p class="coming">Stay tuned! Exciting things are on the way...</p>
+  <h1>🚀 Welcome to ADBOSS Zone</h1>
+
+  <div class="options">
+    <div class="option-card" onclick="playRaceGame()">
+      <span>🏁 PLAY RACE GAME</span>
+    </div>
+    <div class="option-card" onclick="showYourClone()">
+      <span>🧬 SHOW YOUR CLONE</span>
+    </div>
   </div>
 
-  <footer>&copy; 2025 ADBOSS</footer>
-
   <script>
-    // You can later add interactivity here if needed
-    console.log("Page loaded: Features Coming Soon");
+    function playRaceGame() {
+      window.open('https://www.miniplay.com/game/fun-race-3d/play', '_blank');
+    }
+
+    function showYourClone() {
+      window.open('https://pimeyes.com/en', '_blank');
+    }
   </script>
 
 </body>
