@@ -1,179 +1,407 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ADBOSS Portal</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADBOSS 2.0</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        /* --- सामान्य बॉडी स्टाइल --- */
+        body {
+            font-family: 'Press Start 2P', cursive; /* सुसंगत थीम के लिए रेट्रो फ़ॉन्ट लागू */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #1a1a2e; /* गहरा पृष्ठभूमि */
+            color: #e0e0e0; /* हल्का टेक्स्ट */
+            overflow: hidden; /* एनिमेशन के कारण स्क्रॉलबार को रोकें */
+        }
 
-    body {
-      height: 100vh;
-      background: linear-gradient(120deg, #1e1e2f, #111);
-      font-family: 'Segoe UI', sans-serif;
-      color: white;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      padding-top: 60px;
-      text-align: center;
-    }
+        /* --- इंट्रो स्क्रीन स्टाइल --- */
+        #intro-screen {
+            text-align: center;
+            font-size: 3.5em; /* प्रभाव के लिए बड़ा */
+            font-weight: bold;
+            color: #00bcd4; /* सियान रंग */
+            animation: glitchReveal 3s forwards; /* 'dhasu' एनिमेशन को छोटा किया गया */
+            text-shadow: 0 0 10px rgba(0, 189, 212, 0.7), 0 0 20px rgba(0, 189, 212, 0.5); /* चमकता प्रभाव */
+            letter-spacing: 5px; /* डिजिटल अनुभव के लिए स्पेसिंग */
+            position: relative; /* गड़बड़ी प्रभावों के लिए आधार */
+        }
 
-    h1 {
-      font-size: 48px;
-      margin-bottom: 30px;
-      animation: fadeIn 2s ease-in-out;
-      background: linear-gradient(90deg, #00ffc8, #00aaff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
+        /* 'Dhasu' इंट्रो एनिमेशन के लिए कीफ़्रेम */
+        @keyframes glitchReveal {
+            0% {
+                opacity: 0;
+                transform: scale(0.8) translateY(-20px);
+                filter: blur(10px); /* धुंधला शुरू होता है */
+                text-shadow: none;
+                letter-spacing: -20px; /* अक्षर सिकुड़े हुए शुरू होते हैं */
+            }
+            10% {
+                opacity: 0.2;
+                transform: scale(0.9) translateY(0px);
+                filter: blur(5px);
+                text-shadow: none;
+                letter-spacing: -10px;
+            }
+            20% {
+                opacity: 0.5;
+                transform: scale(1) translateY(0px);
+                filter: blur(0px); /* स्पष्ट हो जाता है */
+                text-shadow: 0 0 5px rgba(0, 189, 212, 0.4);
+                letter-spacing: 0px; /* अक्षर फैलते हैं */
+            }
+            22% { /* संक्षिप्त झिलमिलाहट भाग 1 */
+                opacity: 0.8;
+                transform: scale(1.01);
+            }
+            24% { /* संक्षिप्त झिलमिलाहट भाग 2 */
+                opacity: 0.5;
+                transform: scale(0.99);
+            }
+            26% {
+                opacity: 1; /* पूरी तरह से दिखाई देता है और स्थिर होता है */
+                transform: scale(1);
+            }
+            80% {
+                opacity: 1; /* एक अवधि के लिए दिखाई देता रहता है */
+                transform: scale(1);
+            }
+            100% {
+                opacity: 0; /* फीका पड़ जाता है */
+                transform: scale(1.2);
+                display: none; /* तत्व को पूरी तरह से छुपाता है */
+            }
+        }
 
-    .options {
-      display: flex;
-      gap: 40px;
-      flex-wrap: wrap;
-      justify-content: center;
-      animation: slideUp 2s ease-out;
-      margin-bottom: 40px;
-    }
+        /* --- होम स्क्रीन स्टाइल (यह अब उपयोग नहीं किया जाएगा यदि आप रीडायरेक्ट कर रहे हैं) --- */
+        #home-screen {
+            display: none; /* शुरू में छिपा हुआ, इंट्रो के बाद दिखाया गया */
+            flex-direction: column;
+            align-items: center;
+            gap: 20px; /* बटनों के बीच जगह */
+            background-color: #2a2a4a; /* थोड़ा हल्का गहरा पृष्ठभूमि */
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+        }
 
-    .option-card {
-      background: #222;
-      padding: 30px 40px;
-      border-radius: 20px;
-      width: 260px;
-      font-size: 20px;
-      font-weight: bold;
-      cursor: pointer;
-      box-shadow: 0 8px 24px rgba(0, 255, 200, 0.2);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      position: relative;
-    }
+        #home-screen h1 {
+            color: #4CAF50; /* हेडिंग के लिए हरा */
+            margin-bottom: 20px;
+            font-size: 1.8em; /* इस स्क्रीन के लिए समायोजित */
+            font-family: Arial, sans-serif; /* स्वच्छ दिखने के लिए ओवरराइड */
+        }
 
-    .option-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: linear-gradient(135deg, #00ffcc88, #00aaff88);
-      border-radius: 20px;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      z-index: 0;
-    }
+        .button {
+            background-color: #007bff; /* नीला बटन */
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 80%;
+            max-width: 300px;
+            font-family: Arial, sans-serif; /* स्वच्छ दिखने के लिए ओवरराइड */
+        }
 
-    .option-card:hover {
-      transform: scale(1.08);
-      box-shadow: 0 10px 30px rgba(0, 255, 200, 0.4);
-    }
+        .button:hover {
+            background-color: #0056b3;
+        }
 
-    .option-card:hover::before { opacity: 1; }
+        /* --- सर्वर व्यस्त संदेश --- */
+        #server-busy-message {
+            display: none; /* शुरू में छिपा हुआ */
+            color: #ffcc00; /* चेतावनी के लिए पीला */
+            margin-top: 20px;
+            font-size: 1.1em;
+            text-align: center;
+            font-family: Arial, sans-serif; /* स्वच्छ दिखने के लिए ओवरराइड */
+        }
 
-    .option-card span {
-      position: relative;
-      z-index: 1;
-    }
+        /* --- भविष्य के फॉर्म स्टाइल --- */
+        #future-form {
+            display: none; /* शुरू में छिपा हुआ */
+            flex-direction: column;
+            gap: 15px;
+            background-color: #2a2a4a;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            max-width: 500px;
+            width: 90%;
+            font-family: Arial, sans-serif; /* स्वच्छ दिखने के लिए ओवरराइड */
+        }
 
-    .subscription {
-      margin-top: 20px;
-      text-align: center;
-      animation: fadeIn 2s ease-in-out;
-    }
+        #future-form h2 {
+             color: #f0ad4e;
+             text-align: center;
+             margin-bottom: 20px;
+        }
 
-    .subscribe-btn {
-      background: linear-gradient(90deg, #00ffc8, #00aaff);
-      color: #000;
-      padding: 15px 30px;
-      border: none;
-      border-radius: 30px;
-      font-size: 18px;
-      font-weight: bold;
-      cursor: pointer;
-      box-shadow: 0 6px 18px rgba(0, 255, 200, 0.3);
-      transition: transform 0.3s ease;
-      margin-bottom: 15px;
-      text-decoration: none;
-      display: inline-block;
-    }
+        #future-form label {
+            font-size: 1.1em;
+            color: #bbbbbb;
+        }
 
-    .subscribe-btn:hover {
-      transform: scale(1.05);
-    }
+        #future-form input[type="text"],
+        #future-form input[type="date"] {
+            padding: 10px;
+            border: 1px solid #555;
+            border-radius: 5px;
+            background-color: #3a3a5a;
+            color: #e0e0e0;
+            font-size: 1em;
+            width: calc(100% - 22px); /* पैडिंग और बॉर्डर के लिए */
+        }
 
-    .qr-section {
-      margin-top: 20px;
-      animation: fadeIn 2s ease-in-out;
-    }
+        #future-form input[type="submit"] {
+            background-color: #28a745; /* हरा सबमिट बटन */
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+            font-family: Arial, sans-serif; /* स्वच्छ दिखने के लिए ओवरराइड */
+        }
 
-    .qr-section img {
-      width: 220px;
-      height: 220px;
-      border-radius: 20px;
-      box-shadow: 0 6px 20px rgba(0,255,200,0.3);
-    }
+        #future-form input[type="submit"]:hover {
+            background-color: #218838;
+        }
 
-    @keyframes fadeIn {
-      0% { opacity: 0; transform: scale(0.8); }
-      100% { opacity: 1; transform: scale(1); }
-    }
+        /* --- भविष्य की भविष्यवाणियाँ प्रदर्शन --- */
+        #predictions-display {
+            display: none; /* शुरू में छिपा हुआ */
+            background-color: #2a2a4a;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            max-width: 500px;
+            width: 90%;
+            text-align: left;
+            margin-top: 20px;
+            font-family: Arial, sans-serif; /* स्वच्छ दिखने के लिए ओवरराइड */
+            overflow-y: auto; /* भविष्यवाणी सूची के लिए स्क्रॉलिंग सक्षम करें */
+            max-height: 300px; /* भविष्यवाणी सूची की अधिकतम ऊंचाई */
+        }
 
-    @keyframes slideUp {
-      0% { transform: translateY(60px); opacity: 0; }
-      100% { transform: translateY(0); opacity: 1; }
-    }
+        #predictions-display h2 {
+            color: #f0ad4e; /* हेडिंग के लिए नारंगी */
+            margin-bottom: 20px;
+            text-align: center;
+        }
 
-    @media (max-width: 600px) {
-      .option-card {
-        width: 80%;
-      }
-    }
-  </style>
+        #predictions-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #predictions-list li {
+            background-color: #3a3a5a;
+            margin-bottom: 10px;
+            padding: 12px;
+            border-radius: 5px;
+            font-size: 1.1em;
+            color: #c0c0c0;
+        }
+
+        /* --- पॉपअप स्टाइल --- */
+        .popup {
+            display: none;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #2a2a4a;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            text-align: center;
+            flex-direction: column;
+            gap: 20px;
+            color: #e0e0e0;
+            font-family: Arial, sans-serif;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .popup h2 {
+            color: #ffcc00;
+            margin-bottom: 15px;
+        }
+
+        .popup-button {
+            background-color: #28a745;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .popup-button:hover {
+            background-color: #218838;
+        }
+    </style>
 </head>
 <body>
 
-  <h1>🚀 Welcome to ADBOSS Zone</h1>
-
-  <div class="options">
-    <div class="option-card" onclick="playRaceGame()">
-      <span>🏁 PLAY RACE GAME</span>
+    <div id="intro-screen">
+        ADBOSS ADVANCEX<br>जारी
     </div>
-    <div class="option-card" onclick="showYourClone()">
-      <span>🧬 SHOW YOUR CLONE</span>
+
+    <div id="home-screen" style="display: none;">
+        <h1>ADBOSS 2.0 में आपका स्वागत है</h1>
+        <button class="button" id="play-pandavs-button">पांच पांडव खेलें</button>
+        <button class="button" id="show-future-button">अपना भविष्य देखें</button>
+        <button class="button" id="prediction-game-button">ADBOSS PREDICTION GAME FREE EARNING 🤑</button>
+        <button class="button" id="nsp-scholarship-button">अपनी एनएसपी छात्रवृत्ति जमा करें और 40000 रुपये तक प्राप्त करें</button>
+        <div id="server-busy-message">सर्वर व्यस्त है कृपया बाद में प्रयास करें :- ADBOSS</div>
     </div>
-  </div>
 
-  <!-- Subscription Button -->
-  <div class="subscription">
-    <a class="subscribe-btn" href="upi://pay?pa=7568845637@axl&pn=ADBOSS&am=199&cu=INR&tn=Monthly%20Access">
-      💎 Pay ₹199 for Ultra Advance Service
-    </a>
-  </div>
+    <form id="future-form">
+        <h2>अपनी जानकारी दर्ज करें</h2>
+        <label for="name">नाम:</label>
+        <input type="text" id="name" required>
 
-  <!-- QR Code -->
-  <div class="qr-section">
-    <p>📱 Or Scan this QR to Pay ₹199</p>
-    <img src="https://api.qrserver.com/v1/create-qr-code/?data=upi://pay?pa=7568845637@axl&pn=ADBOSS&am=199&cu=INR&tn=Monthly%20Access&size=220x220" alt="UPI QR Code" />
-  </div>
+        <label for="dob">जन्म तिथि:</label>
+        <input type="date" id="dob" required>
 
-  <!-- Google Form Upload -->
-  <div class="subscription" style="margin-top: 30px;">
-    <h3>📤 Upload Payment Screenshot</h3>
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfHnzl24RjnQuwuinu1abztAxCu447mgWiDpgHFecA2OxH6zg/viewform?usp=dialog"
-       target="_blank" class="subscribe-btn">
-      Upload via Google Form
-    </a>
-  </div>
+        <label for="city">शहर:</label>
+        <input type="text" id="city" required>
 
-  <script>
-    function playRaceGame() {
-      window.open('https://www.miniplay.com/game/fun-race-3d/play', '_blank');
-    }
+        <input type="submit" value="जमा करें">
+    </form>
 
-    function showYourClone() {
-      window.open('https://pimeyes.com/en', '_blank');
-    }
-  </script>
+    <div id="predictions-display">
+        <h2>आपकी भविष्यवाणियाँ:</h2>
+        <ul id="predictions-list"></ul>
+    </div>
+
+    <div id="earning-game-popup" class="popup">
+        <h2>EARNING GAME COMING SOON</h2>
+        <button class="popup-button" id="play-trail-button">PLAY TRAIL</button>
+    </div>
+
+    <script>
+        const introScreen = document.getElementById('intro-screen');
+        const homeScreen = document.getElementById('home-screen'); // Still referenced, but will be hidden
+        const playPandavsButton = document.getElementById('play-pandavs-button');
+        const serverBusyMessage = document.getElementById('server-busy-message');
+        const showFutureButton = document.getElementById('show-future-button');
+        const futureForm = document.getElementById('future-form');
+        const predictionsDisplay = document.getElementById('predictions-display');
+        const predictionsList = document.getElementById('predictions-list');
+        const nspScholarshipButton = document.getElementById('nsp-scholarship-button');
+        const predictionGameButton = document.getElementById('prediction-game-button');
+        const earningGamePopup = document.getElementById('earning-game-popup');
+        const playTrailButton = document.getElementById('play-trail-button');
+
+        // --- इंट्रो एनिमेशन टाइमिंग और रीडायरेक्ट ---
+        setTimeout(() => {
+            introScreen.style.display = 'none'; // Intro screen will hide
+            window.location.href = 'https://arvinddara.github.io/ADBOSSADVANCE/'; // Redirect to the new URL
+        }, 3000); // Matches the 3-second animation duration
+
+        // --- The following JavaScript will technically still be present,
+        //     but will not be executed as the page redirects immediately after the intro.
+        //     I've left it for completeness based on your original request. ---
+
+        // --- "पांच पांडव खेलें" बटन लॉजिक ---
+        playPandavsButton.addEventListener('click', () => {
+            serverBusyMessage.style.display = 'block';
+            homeScreen.style.alignItems = 'center';
+        });
+
+        // --- "अपना भविष्य देखें" बटन लॉजिक ---
+        showFutureButton.addEventListener('click', () => {
+            homeScreen.style.display = 'none';
+            serverBusyMessage.style.display = 'none';
+            futureForm.style.display = 'flex';
+            earningGamePopup.style.display = 'none';
+        });
+
+        // --- "अपनी एनएसपी छात्रवृत्ति जमा करें" बटन लॉजिक ---
+        nspScholarshipButton.addEventListener('click', () => {
+            window.open('https://scholarships.gov.in/', '_blank');
+        });
+
+        // --- "ADBOSS PREDICTION GAME FREE EARNING 🤑" बटन लॉजिक ---
+        predictionGameButton.addEventListener('click', () => {
+            earningGamePopup.style.display = 'flex';
+            homeScreen.style.display = 'none';
+            serverBusyMessage.style.display = 'none';
+            futureForm.style.display = 'none';
+            predictionsDisplay.style.display = 'none';
+        });
+
+        // --- "PLAY TRAIL" बटन लॉजिक (inside the popup) ---
+        playTrailButton.addEventListener('click', () => {
+            window.open('https://arvinddara.github.io/ADVANCE/', '_blank');
+            earningGamePopup.style.display = 'none';
+            homeScreen.style.display = 'flex';
+        });
+
+        // --- भविष्य की भविष्यवाणी डेटा ---
+        const futurePredictions = [
+            "आपका भविष्य का काम एक सफल उद्यमी होगा।",
+            "अगले वर्ष के लिए आपका भाग्य प्रतिशत 85% है।",
+            "आप आने वाले वर्षों में 3 नए देशों की यात्रा करेंगे।",
+            "आप किसी ऐसे व्यक्ति से मिलेंगे जो आपके जीवन पर महत्वपूर्ण प्रभाव डालेगा।",
+            "अगले 6 महीनों में एक बड़ा वित्तीय अवसर आपका इंतजार कर रहा है।",
+            "आप दो साल के भीतर एक लंबे समय से चले आ रहे व्यक्तिगत लक्ष्य को प्राप्त करेंगे।",
+            "आपकी रचनात्मकता आपको एक नए और रोमांचक शौक की ओर ले जाएगी।",
+            "आप एक साधारण रोजमर्रा की गतिविधि में अप्रत्याशित आनंद पाएंगे।",
+            "आपके द्वारा सीखा गया एक नया कौशल आपके लिए कई दरवाजे खोलेगा।",
+            "आप एक पिछली चुनौती पर काबू पाएंगे और मजबूत बनेंगे।",
+            "आपकी स्वास्थ्य और कल्याण में काफी सुधार होगा।",
+            "आप अपनी दृढ़ता से दूसरों को प्रेरित करेंगे।",
+            "एक भूला हुआ सपना फिर से सामने आएगा और हकीकत बन जाएगा।",
+            "आप एक गहरी और स्थायी दोस्ती करेंगे।",
+            "आपकी अंतर्दृष्टि आपको एक बुद्धिमानीपूर्ण निर्णय लेने के लिए मार्गदर्शन करेगी।"
+        ];
+
+        // एक सत्र में कई बार भविष्यवाणियां उत्पन्न होने से रोकने के लिए फ़्लैग
+        let predictionsShown = false;
+
+        // --- भविष्य का फॉर्म जमा करने का लॉजिक ---
+        futureForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            if (predictionsShown) {
+                alert("आपको इस सत्र के लिए अपनी भविष्यवाणियाँ पहले ही मिल चुकी हैं।");
+                return;
+            }
+
+            predictionsList.innerHTML = '';
+            const shuffledPredictions = [...futurePredictions].sort(() => 0.5 - Math.random());
+            const selectedPredictions = shuffledPredictions.slice(0, 5);
+
+            selectedPredictions.forEach(prediction => {
+                const listItem = document.createElement('li');
+                listItem.textContent = prediction;
+                predictionsList.appendChild(listItem);
+            });
+
+            futureForm.style.display = 'none';
+            predictionsDisplay.style.display = 'block';
+            predictionsShown = true;
+        });
+    </script>
 
 </body>
 </html>
